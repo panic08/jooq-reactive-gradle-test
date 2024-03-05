@@ -2,6 +2,7 @@ package com.example.jooqreactivetest;
 
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
+import org.jooq.generated.tables.GuysTable;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
 
@@ -20,9 +21,9 @@ public class GuyRepository {
 //        }).mapNotNull(r -> r.fetchOneInto(String.class));
 
         return Mono.from(
-                dslContext.select(org.jooq.generated.tables.GuysTable.GUYS_TABLE.NAME)
-                        .from(org.jooq.generated.tables.GuysTable.GUYS_TABLE)
-                        .where(org.jooq.generated.tables.GuysTable.GUYS_TABLE.ID.eq((int) id))
+                dslContext.select(GuysTable.GUYS_TABLE.NAME)
+                        .from(GuysTable.GUYS_TABLE)
+                        .where(GuysTable.GUYS_TABLE.ID.eq((int) id))
         ).map(r -> r.into(String.class));
     }
 }
