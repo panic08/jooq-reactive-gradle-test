@@ -1,0 +1,89 @@
+
+
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.3'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'nu.studer.jooq' version '7.1.1'
+}
+
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+    implementation 'org.springframework.boot:spring-boot-starter-jooq'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.flywaydb:flyway-core'
+    implementation 'org.springframework:spring-jdbc'
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'org.postgresql:postgresql'
+    runtimeOnly 'org.postgresql:r2dbc-postgresql'
+    jooqGenerator 'org.postgresql:postgresql'
+    implementation 'org.jooq:jooq'
+    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor 'org.jooq:jooq-codegen'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.projectreactor:reactor-test'
+}
+
+
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+
+jooq {
+    configurations {
+        greenplum {
+            generationTool {
+                logging = org.jooq.meta.jaxb.Logging.WARN
+                jdbc {
+                    driver = 'org.postgresql.Driver'
+                    url = 'jdbc:postgresql://localhost:5432/postgres'
+                    user = 'postgres'
+                    password = '1234'
+                }
+                generator {
+                    database {
+                        inputSchema = 'public'
+                        includes = '.*'
+                        excludes = ''
+                    }
+                    generate {
+                        pojosEqualsAndHashCode = true
+                        relations = true
+                        deprecated = false
+                        records = true
+                        pojos = true
+                        immutablePojos = false
+                        fluentSetters = true
+                        springAnnotations = true
+                    }
+                    target {
+                        packageName = '/generated'
+                        directory = '/src/main/java/com/example/jooqreactivetest/jooq'
+                    }
+                }
+            }
+        }
+    }
+}

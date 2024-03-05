@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS inits_table(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
