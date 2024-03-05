@@ -1,10 +1,10 @@
-
-
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.3'
     id 'io.spring.dependency-management' version '1.1.4'
     id 'nu.studer.jooq' version '7.1.1'
+    id 'org.flywaydb.flyway' version '7.0.0'
+
 }
 
 
@@ -44,6 +44,14 @@ dependencies {
     testImplementation 'io.projectreactor:reactor-test'
 }
 
+sourceSets {
+    main {
+        java {
+            srcDirs += 'build/generated-src'
+        }
+    }
+}
+
 
 
 tasks.named('test') {
@@ -53,7 +61,7 @@ tasks.named('test') {
 
 jooq {
     configurations {
-        greenplum {
+        postgresql {
             generationTool {
                 logging = org.jooq.meta.jaxb.Logging.WARN
                 jdbc {
@@ -79,11 +87,16 @@ jooq {
                         springAnnotations = true
                     }
                     target {
-                        packageName = '/generated'
-                        directory = '/src/main/java/com/example/jooqreactivetest/jooq'
+//                        packageName = 'jooq.generated'
+//                        directory = '/src/main/java'
                     }
                 }
             }
         }
     }
+}
+flyway {
+    url = 'jdbc:postgresql://localhost:5432/postgres'
+    user = 'postgres'
+    password = '1234'
 }

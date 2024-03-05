@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/api/init")
+@RequestMapping("/api/guy")
 @RequiredArgsConstructor
-public class InitController {
-    private final InitRepository initRepository;
+public class GuyController {
+    private final GuyRepository guyRepository;
     @GetMapping("/name")
     public Mono<Void> getName(@RequestParam("id") long id) {
-        return initRepository.findNameById(id)
+        return guyRepository.findNameById(id)
                 .flatMap(name -> {
                     System.out.println(name);
 
