@@ -13,12 +13,7 @@ import reactor.core.publisher.Mono;
 public class GuyController {
     private final GuyRepository guyRepository;
     @GetMapping("/name")
-    public Mono<Void> getName(@RequestParam("id") long id) {
-        return guyRepository.findNameById(id)
-                .flatMap(name -> {
-                    System.out.println(name);
-
-                    return Mono.empty();
-                });
+    public Mono<String> getName(@RequestParam("id") long id) {
+        return guyRepository.findNameById(id);
     }
 }

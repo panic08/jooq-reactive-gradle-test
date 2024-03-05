@@ -23,7 +23,7 @@ public class GuyRepository {
         return Mono.from(
                 dslContext.select(GuysTable.GUYS_TABLE.NAME)
                         .from(GuysTable.GUYS_TABLE)
-                        .where(GuysTable.GUYS_TABLE.ID.eq((int) id))
+                        .where(GuysTable.GUYS_TABLE.ID.eq(id))
         ).map(r -> r.into(String.class));
     }
 }
