@@ -35,4 +35,19 @@ public class GuyRepository {
                         .returningResult(GuysTable.GUYS_TABLE.ID)
         ).map(r -> r.into(Long.class));
     }
+
+    public Mono<Void> updateNameById(String name, long id) {
+        return Mono.from(
+                dslContext.update(GuysTable.GUYS_TABLE)
+                        .set(GuysTable.GUYS_TABLE.NAME, name)
+                        .where(GuysTable.GUYS_TABLE.ID.eq(id))
+        ).then();
+    }
+
+    public Mono<Void> deleteById(long id) {
+        return Mono.from(
+                dslContext.deleteFrom(GuysTable.GUYS_TABLE)
+                        .where(GuysTable.GUYS_TABLE.ID.eq(id))
+        ).then();
+    }
 }
