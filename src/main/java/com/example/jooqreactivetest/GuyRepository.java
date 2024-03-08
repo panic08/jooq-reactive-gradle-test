@@ -26,4 +26,13 @@ public class GuyRepository {
                         .where(GuysTable.GUYS_TABLE.ID.eq(id))
         ).map(r -> r.into(String.class));
     }
+
+    public Mono<Long> saveByName(String name) {
+        return Mono.from(
+                dslContext.insertInto(GuysTable.GUYS_TABLE)
+                        .columns(GuysTable.GUYS_TABLE.NAME)
+                        .values(name)
+                        .returningResult(GuysTable.GUYS_TABLE.ID)
+        ).map(r -> r.into(Long.class));
+    }
 }
