@@ -19,7 +19,7 @@ public class GuyController {
         return guyRepository.saveByName(name);
     }
 
-    @PutMapping("/{id}/updateName")
+    @PatchMapping("/{id}/updateName")
     public Mono<Void> updateNameById(@RequestParam("name") String name,
                                      @PathVariable("id") long id) {
         return guyRepository.updateNameById(name, id);
